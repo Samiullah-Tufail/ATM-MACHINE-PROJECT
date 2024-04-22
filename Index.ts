@@ -1,4 +1,5 @@
 #! /usr/bin/env node
+
 import inquirer from "inquirer";
 
 let myBalance = 10000;
@@ -10,51 +11,69 @@ let myPin = await inquirer.prompt({
   type: "number",
 });
 
-if (myPin.Pin === pinCode) {
-  console.log("correct pin");
-  let wAmount = await inquirer.prompt({
-    name: "Option",
-    message: "Please select Option",
-    type: "list",
-    choices: ["withDraw", "checkBalance", "FastCash"],
-  });
+let er = true;
 
-  if (wAmount.Option === "withDraw") {
-    // console.log("Withdraw");
-    let amount = await inquirer.prompt({
-      name: "enterAmount",
-      message: "Enter your Amount",
-      type: "number",
-    });
-    if (amount.enterAmount <= myBalance) {
-      console.log(`you withDraw ${amount.enterAmount}`);
-      console.log(`Your remaning Balance is ${myBalance - amount.enterAmount}`);
-    } else {
-      console.log("Insufficaint balance");
-    }
-  } else if (wAmount.Option === "FastCash") {
-    let FastCash = await inquirer.prompt({
-      name: "Fast",
-      message: "Select Amount",
+while (er) {
+  if (myPin.Pin === pinCode) {
+    console.log("_____________Welcome Samiullah_____________");
+    let wAmount = await inquirer.prompt({
+      name: "Option",
+      message: "Please select Option",
       type: "list",
-      choices: ["1000", "2000", "5000", "10000"],
+      choices: ["Deposit", "withDraw", "checkBalance", "FastCash", "Exit"],
     });
 
-    if (
-      FastCash.Fast === "1000" ||
-      FastCash.Fast === "2000" ||
-      FastCash.Fast === "5000" ||
-      FastCash.Fast === "10000"
-    ) {
-      console.log(`You withDraw ${FastCash.Fast}`);
-      console.log(`Your remaning Balance is ${myBalance - FastCash.Fast}`);
+    if (wAmount.Option === "withDraw") {
+      let amount = await inquirer.prompt({
+        name: "enterAmount",
+        message: "Enter your Amount",
+        type: "number",
+      });
+
+      if (amount.enterAmount <= myBalance) {
+        myBalance -= amount.enterAmount;
+        console.log(`you withDraw ${amount.enterAmount}`);
+        console.log(`Your remaning Balance is ${myBalance}`);
+      } else {
+        console.log("Insufficaint balance");
+      }
+    } else if (wAmount.Option === "FastCash") {
+      let FastCash = await inquirer.prompt({
+        name: "Fast",
+        message: "Select Amount",
+        type: "list",
+        choices: ["1000", "2000", "5000", "10000"],
+      });
+
+      if (
+        FastCash.Fast === "1000" ||
+        FastCash.Fast === "2000" ||
+        FastCash.Fast === "5000" ||
+        FastCash.Fast === "10000"
+      ) {
+        myBalance -= FastCash.Fast;
+        console.log(`You withDraw ${FastCash.Fast}`);
+        console.log(`Your remaning Balance is ${myBalance}`);
+      } else {
+        console.log("Insufficaint balance");
+      }
+    } else if (wAmount.Option === "Deposit") {
+      let depositAmount = await inquirer.prompt([
+        {
+          name: "deposit",
+          message: "Enter Deposit amount",
+          type: "number",
+        },
+      ]);
+      myBalance += depositAmount.deposit;
+      console.log(`You deposit ammount sucessfully`);
+      console.log(`your current balance is ${myBalance}`);
+    } else if (wAmount.Option === "checkBalance") {
+      console.log(`Your Current Balance is ${myBalance}`);
     } else {
-      console.log("Insufficaint balance");
+      er = false;
     }
   } else {
-    console.log(`Your balance is ${myBalance}`);
+    console.log("inCorrect pin");
   }
-  // console.log(wAmount);
-} else {
-  console.log("inCorrect pin");
 }
