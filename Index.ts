@@ -34,8 +34,10 @@ while (er) {
         myBalance -= amount.enterAmount;
         console.log(`you withDraw ${amount.enterAmount}`);
         console.log(`Your remaning Balance is ${myBalance}`);
+        er = false;
       } else {
         console.log("Insufficaint balance");
+        er = false;
       }
     } else if (wAmount.Option === "FastCash") {
       let FastCash = await inquirer.prompt({
@@ -54,8 +56,10 @@ while (er) {
         myBalance -= FastCash.Fast;
         console.log(`You withDraw ${FastCash.Fast}`);
         console.log(`Your remaning Balance is ${myBalance}`);
+        er = false;
       } else {
         console.log("Insufficaint balance");
+        er = false;
       }
     } else if (wAmount.Option === "Deposit") {
       let depositAmount = await inquirer.prompt([
@@ -68,6 +72,7 @@ while (er) {
       myBalance += depositAmount.deposit;
       console.log(`You deposit ammount sucessfully`);
       console.log(`your current balance is ${myBalance}`);
+      er = false;
     } else if (wAmount.Option === "checkBalance") {
       console.log(`Your Current Balance is ${myBalance}`);
     } else {
