@@ -77,5 +77,6 @@ while (er) {
     }
     else {
         console.log("inCorrect pin");
+        er = false;
     }
 }
